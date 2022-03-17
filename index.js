@@ -1,27 +1,69 @@
 const { ApolloServer, gql } = require('apollo-server');
 const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-server-core');
 
+const { events, locations, users, participants } = require('./data');
+
 
 const typeDefs = gql`
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+    type Event {
+        id: ID!
+        title: String!
+        desc: String!
+        date: String!
+        from: String!
+        to: String!
+        location_id: ID!
+        user_id: ID!
+    }
 
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
-  }
+    type Location {
+        id: ID!
+        name: String!
+        desc: String!
+        lat: Float!
+        lng: Float!
+    }
 
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
+    type User {
+        id: ID!
+        username: String!
+        email: String!
+    }
+
+    type Participant {
+        id: ID!
+        user_id: ID!
+        event_id: ID!
+    }
+
   type Query {
-    books: [Book]
+    # Event
+    events: [Event!]!
+
+    # Location
+    locations: [Location!]!
+
+    # User
+    users: [User!]!
+
+    # Participant
+    participants: [Participant!]!
   }
 `;
 
 const resolvers = {
     Query: {
-      books: () => books,
+      // Event
+      events: () => events,
+
+      // Location
+      locations: () => locations,
+
+      // User
+      users: () => users,
+
+      // Participant
+      participants: () => participants,
     },
 };
 
