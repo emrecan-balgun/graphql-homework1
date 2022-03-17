@@ -28,6 +28,7 @@ const typeDefs = gql`
         id: ID!
         username: String!
         email: String!
+        events: [Event!]!
     }
 
     type Participant {
@@ -73,6 +74,10 @@ const resolvers = {
       participants: () => participants,
       participant: (parent, args) => participants.find((participant) => participant.id === args.id),
     },
+
+    User: {
+        events: (parents) => events.filter((event) => event.user_id === parents.id),
+    }
 };
 
 const server = new ApolloServer({ 
