@@ -14,6 +14,9 @@ const typeDefs = gql`
         to: String!
         location_id: ID!
         user_id: ID!
+        user: User!
+        location: Location!
+        participants: [Participant!]!
     }
 
     type Location {
@@ -77,6 +80,14 @@ const resolvers = {
 
     User: {
         events: (parents) => events.filter((event) => event.user_id === parents.id),
+    },
+
+    Event: {
+        user: (parents) => users.find((user) => user.id === parents.user_id),
+
+        location: (parents) => locations.find((location) => location.id === parents.location_id),
+        
+        participants: (parents) => participants.filter((participant) => participant.event_id === parents.id)
     }
 };
 
