@@ -57,6 +57,14 @@ const typeDefs = gql`
         lng: Float!
     }
 
+    input updateLocationInput {
+        id: ID!
+        name: String!
+        desc: String!
+        lat: Float!
+        lng: Float!
+    }
+
     # User
     type User {
         id: ID!
@@ -107,6 +115,7 @@ const typeDefs = gql`
 
       # Location
       addLocation(data: addLocationInput!): Location!
+      updateLocation(id: ID!, data: addLocationInput!): Location!
 
       # User
       addUser(data: addUserInput!): User!
@@ -184,6 +193,20 @@ const resolvers = {
             locations.push(location);
 
             return location;
+        },
+        updateLocation: (parent, { id, data }) => {
+            const location_index = locations.findIndex((location) => location.id === id);
+
+            if (location_index === -1) {
+                throw new Error("Location not found");
+            }
+
+            const updated_location = locations[location_index] = {
+                ...locations[location_index],
+                ...data
+            }
+
+            return updated_location;
         },
 
         // User
