@@ -31,14 +31,13 @@ const typeDefs = gql`
     }
 
     input updateEventInput {
-        id: ID!
-        title: String!
-        desc: String!
-        date: String!
-        from: String!
-        to: String!
-        location_id: ID!
-        user_id: ID!
+        title: String
+        desc: String
+        date: String
+        from: String
+        to: String
+        location_id: ID
+        user_id: ID
     }
 
     # Location
@@ -58,11 +57,10 @@ const typeDefs = gql`
     }
 
     input updateLocationInput {
-        id: ID!
-        name: String!
-        desc: String!
-        lat: Float!
-        lng: Float!
+        name: String
+        desc: String
+        lat: Float
+        lng: Float
     }
 
     # User
@@ -79,9 +77,8 @@ const typeDefs = gql`
     }
 
     input updateUserInput {
-        id: ID!
-        username: String!
-        email: String!
+        username: String
+        email: String
     }
 
     # Participant
@@ -96,10 +93,9 @@ const typeDefs = gql`
         event_id: ID!
     }
 
-    input updateParticipant{
-        id: ID!
-        user_id: ID!
-        event_id: ID!
+    input updateParticipantInput{
+        user_id: ID
+        event_id: ID
     }
 
   type Query {
@@ -128,26 +124,27 @@ const typeDefs = gql`
   type Mutation {
       # Event
       addEvent(data: addEventInput!): Event!
-      updateEvent(id: ID!, data: addEventInput!): Event!
+      updateEvent(id: ID!, data: updateEventInput!): Event!
       deleteEvent(id: ID!): Event!
       deleteAllEvents: DeleteAllOutput!
 
       # Location
       addLocation(data: addLocationInput!): Location!
-      updateLocation(id: ID!, data: addLocationInput!): Location!
+      updateLocation(id: ID!, data: updateLocationInput!): Location!
       deleteLocation(id: ID!): Location!
       deleteAllLocations: DeleteAllOutput!
 
       # User
       addUser(data: addUserInput!): User!
-      updateUser(id: ID!, data: addUserInput!): User!
+      updateUser(id: ID!, data: updateUserInput!): User!
       deleteUser(id: ID!): User!
       deleteAllUsers: DeleteAllOutput!
       
       # Participant
       addParticipant(data: addParticipantInput!): Participant!
-      updateParticipant(id: ID!, data: addParticipantInput!): Participant!
+      updateParticipant(id: ID!, data: updateParticipantInput!): Participant!
       deleteParticipant(id: ID!): Participant!
+      deleteAllParticipants: DeleteAllOutput!
   }
 `;
 
@@ -358,6 +355,13 @@ const resolvers = {
             participants.splice(participant_index, 1);
 
             return deleted_participant;
+        },
+        deleteAllParticipants: (parent, args) => {
+            const count = participants.length;
+
+            participants.splice(0, participants.length);
+
+            return { count };
         }
     }
 };
