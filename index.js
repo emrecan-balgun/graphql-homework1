@@ -96,6 +96,12 @@ const typeDefs = gql`
         event_id: ID!
     }
 
+    input updateParticipant{
+        id: ID!
+        user_id: ID!
+        event_id: ID!
+    }
+
   type Query {
     # Event
     events: [Event!]!
@@ -129,6 +135,7 @@ const typeDefs = gql`
       
       # Participant
       addParticipant(data: addParticipantInput!): Participant!
+      updateParticipant(id: ID!, data: addParticipantInput!): Participant!
   }
 `;
 
@@ -252,6 +259,20 @@ const resolvers = {
             participants.push(participant);
 
             return participant;
+        },
+        updateParticipant: (parent, { id, data }) => {
+            const participant_index = participants.findIndex((participant) => participant.id === id);
+
+            if (participant_index === -1) {
+                throw new Error("Participant not found");
+            }
+
+            const updated_participant = participants[participant_index] = {
+                ...participants[participant_index],
+                ...data
+            }
+
+            return updated_participant;
         }
     }
 };
