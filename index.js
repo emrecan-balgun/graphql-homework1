@@ -120,11 +120,17 @@ const typeDefs = gql`
     participant(id: ID!): Participant!
   }
 
+    # Delete All Output
+    type DeleteAllOutput {
+        count: Int!
+    }
+
   type Mutation {
       # Event
       addEvent(data: addEventInput!): Event!
       updateEvent(id: ID!, data: addEventInput!): Event!
       deleteEvent(id: ID!): Event!
+      deleteAllEvents: DeleteAllOutput!
 
       # Location
       addLocation(data: addLocationInput!): Location!
@@ -212,6 +218,13 @@ const resolvers = {
             events.splice(event_index, 1);
 
             return deleted_event;
+        },
+        deleteAllEvents: (parent, args) => {
+            const count = events.length;
+
+            events.splice(0, events.length);
+
+            return { count };
         },
 
         // Location
