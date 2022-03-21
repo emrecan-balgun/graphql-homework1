@@ -129,6 +129,7 @@ const typeDefs = gql`
       # Location
       addLocation(data: addLocationInput!): Location!
       updateLocation(id: ID!, data: addLocationInput!): Location!
+      deleteLocation(id: ID!): Location!
 
       # User
       addUser(data: addUserInput!): User!
@@ -235,6 +236,19 @@ const resolvers = {
             }
 
             return updated_location;
+        },
+        deleteLocation: (parent, { id }) => {
+            const location_index = locations.findIndex((location) => location.id === id)
+
+            if (location_index === -1) {
+                throw new Error("Location not found")
+            }
+
+            const deleted_location = locations[location_index]
+
+            locations.splice(location_index, 1);
+
+            return deleted_location;
         },
 
         // User
