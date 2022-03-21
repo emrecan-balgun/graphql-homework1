@@ -2,9 +2,10 @@ const { ApolloServer, gql } = require('apollo-server');
 const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-server-core');
 
 const { events, locations, users, participants } = require('./data');
-
+const { nanoid } = require('nanoid');
 
 const typeDefs = gql`
+    # Event
     type Event {
         id: ID!
         title: String!
@@ -19,6 +20,17 @@ const typeDefs = gql`
         participants: [Participant!]!
     }
 
+    input addEventInput {
+        title: String!
+        desc: String!
+        date: String!
+        from: String!
+        to: String!
+        location_id: ID!
+        user_id: ID!
+    }
+
+    # Location
     type Location {
         id: ID!
         name: String!
@@ -27,6 +39,7 @@ const typeDefs = gql`
         lng: Float!
     }
 
+    # User
     type User {
         id: ID!
         username: String!
@@ -34,6 +47,7 @@ const typeDefs = gql`
         events: [Event!]!
     }
 
+    # Participant
     type Participant {
         id: ID!
         user_id: ID!
@@ -56,6 +70,11 @@ const typeDefs = gql`
     # Participant
     participants: [Participant!]!
     participant(id: ID!): Participant!
+  }
+
+  type Mutation {
+      # Event
+      addEvent(data: addEventInput!): Event!
   }
 `;
 
@@ -88,6 +107,20 @@ const resolvers = {
         location: (parents) => locations.find((location) => location.id === parents.location_id),
         
         participants: (parents) => participants.filter((participant) => participant.event_id === parents.id)
+    },
+
+    Mutation: {
+        // Event
+        addEvent: (parent, { data }) => {
+            const event = {
+                id: nanoid(),
+                ...data
+            }
+
+            events.push(event);
+
+            return event;
+        }
     }
 };
 
