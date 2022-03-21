@@ -39,6 +39,13 @@ const typeDefs = gql`
         lng: Float!
     }
 
+    input addLocationInput {
+        name: String!
+        desc: String!
+        lat: Float!
+        lng: Float!
+    }
+
     # User
     type User {
         id: ID!
@@ -75,6 +82,9 @@ const typeDefs = gql`
   type Mutation {
       # Event
       addEvent(data: addEventInput!): Event!
+
+      # Location
+      addLocation(data: addLocationInput!): Location!
   }
 `;
 
@@ -117,9 +127,21 @@ const resolvers = {
                 ...data
             }
 
-            events.push(event);
+            events.push(event)
 
             return event;
+        },
+
+        // Location
+        addLocation: (parent, { data }) => {
+            const location = {
+                id: nanoid(),
+                ...data
+            }
+
+            locations.push(location);
+
+            return location;
         }
     }
 };
