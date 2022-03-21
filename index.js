@@ -30,6 +30,17 @@ const typeDefs = gql`
         user_id: ID!
     }
 
+    input updateEventInput {
+        id: ID!
+        title: String!
+        desc: String!
+        date: String!
+        from: String!
+        to: String!
+        location_id: ID!
+        user_id: ID!
+    }
+
     # Location
     type Location {
         id: ID!
@@ -92,6 +103,7 @@ const typeDefs = gql`
   type Mutation {
       # Event
       addEvent(data: addEventInput!): Event!
+      updateEvent(id: ID!, data: addEventInput!): Event!
 
       # Location
       addLocation(data: addLocationInput!): Location!
@@ -146,6 +158,20 @@ const resolvers = {
             events.push(event);
 
             return event;
+        },
+        updateEvent: (parent, { id, data }) => {
+            const event_index = events.findIndex((event) => event.id === id);
+
+            if (event_index === -1) {
+                throw new Error("Event not found");
+            }
+
+            const updated_event = events[event_index] = {
+                ...events[event_index],
+                ...data
+            }
+
+            return updated_event;
         },
 
         // Location
