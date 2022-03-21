@@ -142,6 +142,7 @@ const typeDefs = gql`
       addUser(data: addUserInput!): User!
       updateUser(id: ID!, data: addUserInput!): User!
       deleteUser(id: ID!): User!
+      deleteAllUsers: DeleteAllOutput!
       
       # Participant
       addParticipant(data: addParticipantInput!): Participant!
@@ -311,6 +312,13 @@ const resolvers = {
             users.splice(user_index, 1);
 
             return deleted_user;
+        },
+        deleteAllUsers: (parent, args) => {
+            const count = users.length;
+
+            users.splice(0, users.length);
+
+            return { count };
         },
 
         // Participant
