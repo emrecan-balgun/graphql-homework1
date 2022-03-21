@@ -66,6 +66,11 @@ const typeDefs = gql`
         event_id: ID!
     }
 
+    input addParticipantInput {
+        user_id: ID!
+        event_id: ID!
+    }
+
   type Query {
     # Event
     events: [Event!]!
@@ -93,6 +98,9 @@ const typeDefs = gql`
 
       # User
       addUser(data: addUserInput!): User!
+      
+      # Participant
+      addParticipant(data: addParticipantInput!): Participant!
   }
 `;
 
@@ -162,6 +170,18 @@ const resolvers = {
             users.push(user);
 
             return user;
+        },
+
+        // Participant
+        addParticipant: (parent, { data }) => {
+            const participant = {
+                id: nanoid(),
+                ...data
+            }
+
+            participants.push(participant);
+
+            return participant;
         }
     }
 };
