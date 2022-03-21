@@ -54,6 +54,11 @@ const typeDefs = gql`
         events: [Event!]!
     }
 
+    input addUserInput {
+        username: String!
+        email: String!
+    }
+
     # Participant
     type Participant {
         id: ID!
@@ -85,6 +90,9 @@ const typeDefs = gql`
 
       # Location
       addLocation(data: addLocationInput!): Location!
+
+      # User
+      addUser(data: addUserInput!): User!
   }
 `;
 
@@ -127,7 +135,7 @@ const resolvers = {
                 ...data
             }
 
-            events.push(event)
+            events.push(event);
 
             return event;
         },
@@ -142,6 +150,18 @@ const resolvers = {
             locations.push(location);
 
             return location;
+        },
+
+        // User
+        addUser: (parent, { data }) => {
+            const user = {
+                id: nanoid(),
+                ...data
+            }
+
+            users.push(user);
+
+            return user;
         }
     }
 };
