@@ -78,6 +78,12 @@ const typeDefs = gql`
         email: String!
     }
 
+    input updateUserInput {
+        id: ID!
+        username: String!
+        email: String!
+    }
+
     # Participant
     type Participant {
         id: ID!
@@ -119,6 +125,7 @@ const typeDefs = gql`
 
       # User
       addUser(data: addUserInput!): User!
+      updateUser(id: ID!, data: addUserInput!): User!
       
       # Participant
       addParticipant(data: addParticipantInput!): Participant!
@@ -219,6 +226,20 @@ const resolvers = {
             users.push(user);
 
             return user;
+        },
+        updateUser: (parent, { id, data }) => {
+            const user_index = users.findIndex((user) => user.id === id);
+
+            if (user_index === -1) {
+                throw new Error("User not found");
+            }
+
+            const updated_user = users[user_index] = {
+                ...users[user_index],
+                ...data
+            }
+
+            return updated_user;
         },
 
         // Participant
