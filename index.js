@@ -136,6 +136,7 @@ const typeDefs = gql`
       addLocation(data: addLocationInput!): Location!
       updateLocation(id: ID!, data: addLocationInput!): Location!
       deleteLocation(id: ID!): Location!
+      deleteAllLocations: DeleteAllOutput!
 
       # User
       addUser(data: addUserInput!): User!
@@ -264,6 +265,13 @@ const resolvers = {
             locations.splice(location_index, 1);
 
             return deleted_location;
+        },
+        deleteAllLocations: (parent, args) => {
+            const count = locations.length;
+
+            locations.splice(0, locations.length);
+
+            return { count };
         },
 
         // User
