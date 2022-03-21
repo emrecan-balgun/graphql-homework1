@@ -139,6 +139,7 @@ const typeDefs = gql`
       # Participant
       addParticipant(data: addParticipantInput!): Participant!
       updateParticipant(id: ID!, data: addParticipantInput!): Participant!
+      deleteParticipant(id: ID!): Participant!
   }
 `;
 
@@ -315,6 +316,19 @@ const resolvers = {
             }
 
             return updated_participant;
+        },
+        deleteParticipant: (parent, { id }) => {
+            const participant_index = participants.findIndex((participant) => participant.id === id)
+
+            if (participant_index === -1) {
+                throw new Error("Participant not found")
+            }
+
+            const deleted_participant = participants[participant_index]
+
+            participants.splice(participant_index, 1);
+
+            return deleted_participant;
         }
     }
 };
