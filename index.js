@@ -134,6 +134,7 @@ const typeDefs = gql`
       # User
       addUser(data: addUserInput!): User!
       updateUser(id: ID!, data: addUserInput!): User!
+      deleteUser(id: ID!): User!
       
       # Participant
       addParticipant(data: addParticipantInput!): Participant!
@@ -275,6 +276,19 @@ const resolvers = {
             }
 
             return updated_user;
+        },
+        deleteUser: (parent, { id }) => {
+            const user_index = users.findIndex((user) => user.id === id)
+
+            if (user_index === -1) {
+                throw new Error("User not found")
+            }
+
+            const deleted_user = users[user_index]
+
+            users.splice(user_index, 1);
+
+            return deleted_user;
         },
 
         // Participant
