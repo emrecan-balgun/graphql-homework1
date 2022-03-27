@@ -153,6 +153,7 @@ const typeDefs = `
     userCreated: User!
 
     # Event
+    eventCreated: Event!
 
     # Participant
 
@@ -193,13 +194,14 @@ const resolvers = {
 
     Mutation: {
         // Event
-        addEvent: (parent, { data }) => {
+        addEvent: (parent, { data }, { pubsub }) => {
             const event = {
                 id: nanoid(),
                 ...data
             }
 
             events.push(event);
+            pubsub.publish('eventCreated', { eventCreated: event })
 
             return event;
         },
@@ -382,6 +384,11 @@ const resolvers = {
         // User
         userCreated: { 
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('userCreated')
+        },
+
+        // Event
+        eventCreated: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('eventCreated')
         },
     }
 };
