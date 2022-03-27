@@ -285,13 +285,14 @@ const resolvers = {
         },
 
         // User
-        addUser: (parent, { data }) => {
+        addUser: (parent, { data }, { pubsub }) => {
             const user = {
                 id: nanoid(),
                 ...data
             }
 
             users.push(user);
+            pubsub.publish('userCreated', { userCreated: user })
 
             return user;
         },
@@ -379,7 +380,9 @@ const resolvers = {
 
     Subscription: {
         // User
-        userCreated
+        userCreated: { 
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('userCreated')
+        },
     }
 };
 
