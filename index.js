@@ -158,6 +158,7 @@ const typeDefs = `
     # Participant
 
     # Location
+    locationCreated: Location!
   }
 `;
 
@@ -241,13 +242,14 @@ const resolvers = {
         },
 
         // Location
-        addLocation: (parent, { data }) => {
+        addLocation: (parent, { data }, { pubsub }) => {
             const location = {
                 id: nanoid(),
                 ...data
             }
 
             locations.push(location);
+            pubsub.publish('locationCreated', { locationCreated: location })
 
             return location;
         },
@@ -390,6 +392,11 @@ const resolvers = {
         eventCreated: {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('eventCreated')
         },
+
+        // Location
+        locationCreated: {
+            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('locationCreated')
+        }
     }
 };
 
