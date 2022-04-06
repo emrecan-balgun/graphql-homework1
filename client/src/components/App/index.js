@@ -1,41 +1,24 @@
 import { Row, Col } from 'antd';
 import styles from './styles.module.css';
+import { Routes, Route } from 'react-router-dom';
 
-import { List, Avatar } from 'antd';
-
-const data = [
-  {
-    title: 'Ant Design Title 1',
-  },
-  {
-    title: 'Ant Design Title 2',
-  },
-  {
-    title: 'Ant Design Title 3',
-  },
-  {
-    title: 'Ant Design Title 4',
-  },
-];
+// pages
+import Home from 'pages/Home'
+import HeaderMenu from './HeaderMenu';
+import NewEvent from 'pages/NewEvent';
  
 function App() {
   return (
     <div className={styles.container}>
       <Row justify='center'>
-        <Col span={14} className={styles.content}>Col
-          <List
-            itemLayout="horizontal"
-            dataSource={data}
-            renderItem={item => (
-              <List.Item>
-                <List.Item.Meta
-                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                  title={<a href="https://ant.design">{item.title}</a>}
-                  description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                />
-              </List.Item>
-              )}
-            />
+        <Col span={14} className={styles.content}>
+        <HeaderMenu />
+        <div className={styles.content}>
+          <Routes>
+              <Route path="/" element={<Home/>} />
+              <Route path="/new" element={<NewEvent/>} />
+            </Routes>
+        </div>  
         </Col>
       </Row>
     </div>

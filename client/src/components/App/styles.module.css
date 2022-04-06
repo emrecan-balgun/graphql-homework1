@@ -9,3 +9,12 @@
     margin: 24px;
     border: solid 4px bisque;
 }
+
+.headerMenu {
+    background: none;
+}
+
+.menuItem {
+    font-weight: bold;
+    font-size:18px;
+}
