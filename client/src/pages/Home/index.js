@@ -43,7 +43,7 @@ function Home() {
                 <span>{item.date}</span>
                 </List.Item>
                 )}
-        />
+        />   
   )
 }
 
