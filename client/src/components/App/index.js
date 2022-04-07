@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from 'pages/Home'
 import HeaderMenu from './HeaderMenu';
 import NewEvent from 'pages/NewEvent';
+import Event from 'pages/Event';
  
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <div className={styles.content}>
           <Routes>
               <Route path="/" element={<Home/>} />
+              <Route path="/event/:id" element={<Event/>} />
               <Route path="/new" element={<NewEvent/>} />
             </Routes>
         </div>  

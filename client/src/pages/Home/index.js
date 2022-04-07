@@ -1,23 +1,8 @@
 import { List } from 'antd';
 import { useQuery } from '@apollo/client';
 import { GET_EVENTS } from './queries';
-
-// const list = [
-//   {
-//     title: 'Ant Design Title 1',
-//   },
-//   {
-//     title: 'Ant Design Title 2',
-//   },
-//   {
-//     title: 'Ant Design Title 3',
-//   },
-//   {
-//     title: 'Ant Design Title 4',
-//   },
-// ];
-
-
+import { Link } from 'react-router-dom';
+import styles from './styles.module.css';
 
 function Home() {
     const { loading, error, data } = useQuery(GET_EVENTS);
@@ -28,8 +13,6 @@ function Home() {
     if (error)
     return <div>Error: {error.message}</div>
 
-    console.log(data.events);
-
   return (
         <List
             itemLayout="horizontal"
@@ -37,8 +20,8 @@ function Home() {
             renderItem={item => (
                 <List.Item>
                 <List.Item.Meta
-                    title={item.title}
-                    description={item.desc}
+                    title={<Link to={`/event/${item.id}`} className={styles.listItem}>{item.title}</Link>}
+                    description={<Link to={`/event/${item.id}`} className={styles.listItem}>{item.desc}</Link>}
                 />
                 <span>{item.date}</span>
                 </List.Item>
