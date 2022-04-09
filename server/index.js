@@ -202,7 +202,7 @@ const resolvers = {
                 ...data
             }
 
-            events.push(event);
+            events.unshift(event);
             pubsub.publish('eventCreated', { eventCreated: event })
 
             return event;
