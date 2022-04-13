@@ -3,6 +3,8 @@ import { useQuery, useMutation } from '@apollo/client';
 import { GET_LOCATIONS, GET_USERS, NEW_EVENT_MUTATION } from './queries.js';
 import { useNavigate  } from 'react-router-dom';
 
+import styles from './styles.module.css';
+
 const { Option } = Select;
 
 function NewEventForm() {
@@ -108,7 +110,7 @@ function NewEventForm() {
         </Select>
       </Form.Item>
 
-      <Form.Item>
+      <Form.Item className={styles.button}>
         <Button loading={loading} size="large" type="primary" htmlType="submit">
           Submit
         </Button>
