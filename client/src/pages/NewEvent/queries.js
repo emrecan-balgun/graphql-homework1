@@ -13,14 +13,6 @@ export const NEW_EVENT_MUTATION = gql`
   mutation addNewEvent($data: addEventInput!) {
   addEvent(data: $data){
     id
-    desc
-    location{
-      name
-    }
-    date
-    user{
-      username
-    }
   }
 }
 `;
