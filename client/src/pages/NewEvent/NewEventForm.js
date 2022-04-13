@@ -45,25 +45,25 @@ function NewEventForm() {
       <Form.Item
         name="desc"
       >
-        <Input disabled={loading} size="large" placeholder="Description" />
+        <Input.TextArea disabled={loading} size="large" placeholder="Description" />
       </Form.Item>
 
       <Form.Item
         name="date"
       >
-        <Input.TextArea disabled={loading} size="large" placeholder="Date" />
+        <Input disabled={loading} size="large" placeholder="Date" />
       </Form.Item>
 
       <Form.Item
         name="from"
       >
-        <Input.TextArea disabled={loading} size="large" placeholder="From" />
+        <Input disabled={loading} size="large" placeholder="From" />
       </Form.Item>
 
       <Form.Item
         name="to"
       >
-        <Input.TextArea disabled={loading} size="large" placeholder="To" />
+        <Input disabled={loading} size="large" placeholder="To" />
       </Form.Item>
 
       <Form.Item
